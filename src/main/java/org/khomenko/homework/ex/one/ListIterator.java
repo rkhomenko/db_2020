@@ -1,8 +1,6 @@
 package org.khomenko.homework.ex.one;
 
-import java.util.ListIterator;
-
-public class DynamicArrayListIterator<E> implements ListIterator<E> {
+class ListIterator<E> implements java.util.ListIterator<E> {
     @Override
     public boolean hasNext() {
         return false;

@@ -1,17 +1,38 @@
 package org.khomenko.homework.ex.one;
 
-import java.util.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Spliterator;
 import java.util.function.UnaryOperator;
 
 public class DynamicArray<T> implements List<T> {
+    public DynamicArray() {
+        this(0);
+    }
+
+    public DynamicArray(int size) {
+        this.size = size;
+        this.top = 0;
+        this.data = null;
+
+        if (size != 0) {
+            this.data = AllocateArray(size);
+        }
+    }
+
     @Override
     public int size() {
-        return 0;
+        return this.size;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return top == 0;
     }
 
     @Override
@@ -36,6 +57,11 @@ public class DynamicArray<T> implements List<T> {
 
     @Override
     public boolean add(T t) {
+        if (this.top == ) {
+            int size = K *
+            T[] data = AllocateArray(kthis.size)
+        }
+
         return false;
     }
 
@@ -131,6 +157,18 @@ public class DynamicArray<T> implements List<T> {
 
     @Override
     public Spliterator<T> spliterator() {
-        return null;
+        // TODO: implement spliterator
+        throw new UnsupportedOperationException();
     }
+
+    @SuppressWarnings("unchecked")
+    private static T[] AllocateArray(int size) {
+        return (T[])new ArrayList<T>(size).toArray();
+    }
+
+    private static int K = 2;
+
+    private int size;
+    private int top;
+    private T[] data;
 }

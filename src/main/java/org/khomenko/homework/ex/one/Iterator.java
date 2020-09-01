@@ -1,8 +1,6 @@
 package org.khomenko.homework.ex.one;
 
-import java.util.Iterator;
-
-public class DynamicArrayIterator<T> implements Iterator<T> {
+class Iterator<T> implements java.util.Iterator<T> {
     @Override
     public boolean hasNext() {
         return false;
