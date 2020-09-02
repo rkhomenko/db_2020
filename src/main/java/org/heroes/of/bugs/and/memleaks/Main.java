@@ -18,10 +18,7 @@ public class Main {
             }
         }
 
-
-        while (hero1.getHeatPoints() > 0 && hero2.getHeatPoints() > 0) {
-            hero1.kick(hero2);
-            hero2.kick(hero1);
-        }
+        GameManager gameManager = new GameManager();
+        gameManager.fight(hero1, hero2);
     }
 }
