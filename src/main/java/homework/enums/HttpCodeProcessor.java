@@ -34,8 +34,6 @@ public class HttpCodeProcessor {
     private static final RangeMap<Integer, String> rangeMap = TreeRangeMap.create();
 
     static {
-        System.out.println("Load settings");
-
         URL settings = Thread.currentThread()
                 .getContextClassLoader()
                 .getResource("httpCodeProcessor.json");

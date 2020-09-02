@@ -2,7 +2,7 @@ package homework.enums;
 
 public class Main {
     public static void main(String[] args) {
-        HttpCodeProcessor processor = new HttpCodeProcessor();
-        processor.getBusinessLogicForCode(404);
+        HttpCodeService service = new HttpCodeService();
+        service.processHttp("httpcode:404");
     }
 }
