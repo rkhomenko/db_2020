@@ -14,6 +14,9 @@ public class King extends Hero implements Kicking {
         int enemyHeatPoints = enemyHero.getHeatPoints();
         int kickPower = ThreadLocalRandom.current().nextInt(0, getPower() + 1);
 
+        System.out.printf("Король \"%s\" накатывает обновление на билд сервер \"%s\". Билды больше не проходят (-%d к зарплате)",
+                getName(), enemyHero.getName(), kickPower);
+
         if (enemyHeatPoints - kickPower < 0) {
             enemyHero.setHeatPoints(0);
         } else {
