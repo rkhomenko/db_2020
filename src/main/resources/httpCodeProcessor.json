@@ -1,27 +1,27 @@
 {
   "intervalList": [
     {
-      "name": "homework.enums.InfoLogic",
+      "name": "homework.enums.logic.InfoLogic",
       "min": 100,
       "max": 199
     },
     {
-      "name": "homework.enums.SuccessLogic",
-      "min": 199,
+      "name": "homework.enums.logic.SuccessLogic",
+      "min": 200,
       "max": 299
     },
     {
-      "name": "homework.enums.RedirectionLogic",
+      "name": "homework.enums.logic.RedirectionLogic",
       "min": 300,
       "max": 399
     },
     {
-      "name": "homework.enums.ClientErrorLogic",
+      "name": "homework.enums.logic.ClientErrorLogic",
       "min": 400,
       "max": 499
     },
     {
-      "name": "homework.enums.ServerErrorLogic",
+      "name": "homework.enums.logic.ServerErrorLogic",
       "min": 500,
       "max": 599
     }

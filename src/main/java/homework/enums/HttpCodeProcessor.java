@@ -1,12 +1,15 @@
 package homework.enums;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.google.common.collect.Range;
+import com.google.common.collect.RangeMap;
+import com.google.common.collect.TreeRangeMap;
 import com.google.common.collect.TreeRangeSet;
+import homework.enums.logic.BusinessLogic;
 import lombok.Getter;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.List;
 
@@ -28,8 +31,11 @@ class Intervals {
 @SuppressWarnings("UnstableApiUsage")
 public class HttpCodeProcessor {
     private static final RangeSet<Integer> rangeSet = TreeRangeSet.create();
+    private static final RangeMap<Integer, String> rangeMap = TreeRangeMap.create();
 
     static {
+        System.out.println("Load settings");
+
         URL settings = Thread.currentThread()
                 .getContextClassLoader()
                 .getResource("httpCodeProcessor.json");
@@ -43,7 +49,8 @@ public class HttpCodeProcessor {
                     throw new RuntimeException("Interval intersection detected");
                 }
 
-                rangeSet.add(Range.closed(interval.getMin(), interval.getMax()));
+                rangeSet.add(range);
+                rangeMap.put(range, interval.getName());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,6 +58,17 @@ public class HttpCodeProcessor {
     }
 
     public BusinessLogic getBusinessLogicForCode(int code) {
-        return null;
+        String className = rangeMap.get(code);
+
+        BusinessLogic businessLogic = null;
+        try {
+            Class<?> clazz = Class.forName(className);
+            Constructor<?> ctor = clazz.getConstructor();
+            businessLogic = (BusinessLogic) ctor.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return businessLogic;
     }
 }
