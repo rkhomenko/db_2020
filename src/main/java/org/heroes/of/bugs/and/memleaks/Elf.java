@@ -12,7 +12,7 @@ public class Elf extends Hero implements Kicking {
         int enemyPower = enemyHero.getPower();
 
         if (enemyPower <= getPower()) {
-            System.out.printf("Эльф \"%s\" находит бак в коде \"%s\", вызывая увольнение\n",
+            System.out.printf("Эльф \"%s\" находит баг в коде \"%s\", вызывая увольнение\n",
                     getName(),
                     enemyHero.getName());
             enemyHero.setHeatPoints(0);
