@@ -1,8 +1,8 @@
 package my_spring.factory;
 
+import lombok.Setter;
 import lombok.SneakyThrows;
 import my_spring.config.ConfigLoader;
-import my_spring.config.JavaConfigLoader;
 import my_spring.configurer.ObjectConfigurer;
 import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
@@ -20,7 +20,9 @@ import java.util.Set;
  */
 public class ObjectFactory {
     private static ObjectFactory objectFactory = new ObjectFactory();
-    private static ConfigLoader configLoader = new JavaConfigLoader();
+
+    @Setter
+    private ConfigLoader configLoader;
 
     private List<ObjectConfigurer> objectConfigurers = new ArrayList<>();
 
