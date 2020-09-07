@@ -1,6 +1,8 @@
-package my_spring;
+package my_spring.configurer;
 
 import lombok.SneakyThrows;
+import my_spring.factory.ObjectFactory;
+import my_spring.annotation.InjectByType;
 
 import java.lang.reflect.Field;
 

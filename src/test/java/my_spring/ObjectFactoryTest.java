@@ -1,5 +1,7 @@
 package my_spring;
 
+import my_spring.config.Config;
+import my_spring.factory.ObjectFactory;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;

@@ -1,13 +1,13 @@
-package my_spring;
+package my_spring.factory;
 
-import heroes.RandomUtil;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import my_spring.config.Config;
+import my_spring.configurer.ObjectConfigurer;
 import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
 
 import javax.annotation.PostConstruct;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -19,7 +19,6 @@ import java.util.Set;
  * @author Evgeny Borisov
  */
 public class ObjectFactory {
-
 
 
     private static ObjectFactory objectFactory = new ObjectFactory();
@@ -55,8 +54,6 @@ public class ObjectFactory {
     }
 
 
-
-
     private <T> void invokeInitMethod(Class<? extends T> implClass, T t) throws IllegalAccessException, InvocationTargetException {
         Set<Method> methods = ReflectionUtils.getAllMethods(implClass);
         for (Method method : methods) {
@@ -66,23 +63,6 @@ public class ObjectFactory {
             }
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     private <T> void configure(T t) {
@@ -104,7 +84,7 @@ public class ObjectFactory {
                 }
                 implClass = classes.iterator().next();
             }
-        }else {
+        } else {
             implClass = type;
         }
         return implClass;
