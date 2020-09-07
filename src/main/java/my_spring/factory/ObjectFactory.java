@@ -1,8 +1,8 @@
 package my_spring.factory;
 
-import lombok.Setter;
 import lombok.SneakyThrows;
-import my_spring.config.Config;
+import my_spring.config.ConfigLoader;
+import my_spring.config.JavaConfigLoader;
 import my_spring.configurer.ObjectConfigurer;
 import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
@@ -19,11 +19,8 @@ import java.util.Set;
  * @author Evgeny Borisov
  */
 public class ObjectFactory {
-
-
     private static ObjectFactory objectFactory = new ObjectFactory();
-    @Setter
-    private Config config;
+    private static ConfigLoader configLoader = new JavaConfigLoader();
 
     private List<ObjectConfigurer> objectConfigurers = new ArrayList<>();
 
@@ -64,7 +61,6 @@ public class ObjectFactory {
         }
     }
 
-
     private <T> void configure(T t) {
         objectConfigurers.forEach(objectConfigurer -> objectConfigurer.configure(t));
     }
@@ -76,7 +72,7 @@ public class ObjectFactory {
     private <T> Class<? extends T> resolveImpl(Class<T> type) {
         Class<? extends T> implClass;
         if (type.isInterface()) {
-            implClass = config.getImpl(type);
+            implClass = configLoader.getImpl(type);
             if (implClass == null) {
                 Set<Class<? extends T>> classes = scanner.getSubTypesOf(type);
                 if (classes.size() != 1) {
