@@ -2,12 +2,13 @@ package my_spring;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import my_spring.annotation.JavaConfig;
 
 /**
  * @author Evgeny Borisov
  */
 
-@my_spring.annotation.JavaConfig
+@JavaConfig
 @Getter
 @RequiredArgsConstructor
 public class MyConfig {

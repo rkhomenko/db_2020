@@ -12,7 +12,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -20,6 +22,8 @@ import java.util.Set;
  */
 public class ObjectFactory {
     private static ObjectFactory objectFactory = new ObjectFactory();
+
+    private static Map<Class<?>, Object> singletoneMap = new HashMap<>();
 
     @Setter
     private ConfigLoader configLoader;
@@ -30,7 +34,6 @@ public class ObjectFactory {
 
     @SneakyThrows
     private ObjectFactory() {
-
         Set<Class<? extends ObjectConfigurer>> classes = scanner.getSubTypesOf(ObjectConfigurer.class);
         for (Class<? extends ObjectConfigurer> aClass : classes) {
             if (!Modifier.isAbstract(aClass.getModifiers())) {
@@ -43,9 +46,17 @@ public class ObjectFactory {
         return objectFactory;
     }
 
+    public static <T> void addSingletone(Class<T> clazz, T t) {
+        singletoneMap.put(clazz, t);
+    }
+
     @SneakyThrows
     public <T> T createObject(Class<T> type) {
         Class<? extends T> implClass = resolveImpl(type);
+        if (singletoneMap.containsKey(implClass)) {
+            return (T) singletoneMap.get(implClass);
+        }
+
         T t = create(implClass);
         configure(t);
         invokeInitMethod(implClass, t);

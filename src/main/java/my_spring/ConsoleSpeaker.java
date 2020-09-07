@@ -5,6 +5,7 @@ import my_spring.annotation.Singleton;
 /**
  * @author Evgeny Borisov
  */
+
 @Singleton
 public class ConsoleSpeaker implements Speaker {
     @Override
