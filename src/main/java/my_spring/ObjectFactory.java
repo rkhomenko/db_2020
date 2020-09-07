@@ -28,7 +28,6 @@ public class ObjectFactory {
 
     @SneakyThrows
     private ObjectFactory() {
-
         Set<Class<? extends ObjectConfigurer>> classes = scanner.getSubTypesOf(ObjectConfigurer.class);
         for (Class<? extends ObjectConfigurer> aClass : classes) {
             if (!Modifier.isAbstract(aClass.getModifiers())) {
@@ -45,25 +44,29 @@ public class ObjectFactory {
     public <T> T createObject(Class<T> type) {
         Class<? extends T> implClass = resolveImpl(type);
         T t = create(implClass);
+        t = injectDependencies(type, t);
         configure(t);
         return t;
     }
 
+    private <T> T injectDependencies(Class<T> clazz, T t) throws IllegalAccessException {
+        List<Field> autowiredFields = new ArrayList<>();
+        for (var field : clazz.getDeclaredFields()) {
+            if (field.isAnnotationPresent(InjectByType.class)) {
+                autowiredFields.add(field);
+            }
+        }
 
+        for (var field : autowiredFields) {
+            Object obj = ObjectFactory.getInstance().createObject(field.getType());
+            boolean accessible = field.canAccess(t);
+            field.setAccessible(true);
+            field.set(t, obj);
+            field.setAccessible(accessible);
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return t;
+    }
 
     private <T> void configure(T t) {
         objectConfigurers.forEach(objectConfigurer -> objectConfigurer.configure(t));

@@ -14,10 +14,12 @@ public class Main {
                 );
 
 
+        // Need refactoring here
         ObjectFactory.getInstance().setConfig(new JavaConfig(map,"my_spring") {
         });
 
-        IRobot iRobot = new IRobot();
+        ApplicationContext applicationContext = new MyApplicationContext();
+        IRobot iRobot = applicationContext.getBean(IRobot.class);
         iRobot.cleanRoom();
     }
 }
