@@ -1,0 +1,16 @@
+{
+  "beans": [
+    {
+      "id": "cleaner",
+      "className": "my_spring.CleanerImpl"
+    },
+    {
+      "id": "speaker",
+      "className": "my_spring.ConsoleSpeaker"
+    },
+    {
+      "id": "robot",
+      "className": "my_spring.IRobot"
+    }
+  ]
+}

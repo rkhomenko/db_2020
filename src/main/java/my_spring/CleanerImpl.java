@@ -11,8 +11,6 @@ public class CleanerImpl implements Cleaner {
 
     @Override
     public void clean() {
-        for (int i = 0; i < repeat; i++) {
-            System.out.println("VVVVVVVVVVVVVVVVVVvvvvvvvvvvvvvvvvvvvv");
-        }
+        System.out.println("VVVVVVVVVVVVVVVVVVvvvvvvvvvvvvvvvvvvvv");
     }
 }
