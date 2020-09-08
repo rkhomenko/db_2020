@@ -1,17 +1,17 @@
 package my_spring;
 
+import my_spring.config.JavaConfigLoader;
 import my_spring.context.ApplicationContext;
-import my_spring.context.JavaConfigContext;
-import my_spring.factory.ObjectFactory;
-
-import java.util.Map;
+import my_spring.context.MyApplicationContext;
 
 /**
  * @author Evgeny Borisov
  */
 public class Main {
     public static void main(String[] args) {
-        ApplicationContext applicationContext = new JavaConfigContext();
+        ApplicationContext applicationContext = new MyApplicationContext();
+        applicationContext.setConfigLoader(new JavaConfigLoader("my_spring"));
+
         IRobot robot = applicationContext.getBean(IRobot.class);
         robot.cleanRoom();
     }

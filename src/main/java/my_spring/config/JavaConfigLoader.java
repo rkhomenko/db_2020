@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JavaConfigLoader implements ConfigLoader {
-    private static final Map<Class<?>, Class<?>> interfaceClassMap = new HashMap<>();
+    private final Map<Class<?>, Class<?>> interfaceClassMap = new HashMap<>();
 
-    static {
-        Reflections scanner = new Reflections("my_spring");
+    public JavaConfigLoader(String packageName) {
+        Reflections scanner = new Reflections(packageName);
         var classSet = scanner.getTypesAnnotatedWith(JavaConfig.class);
         if (classSet.size() == 0) {
             throw new ConfigLoaderException("Cannot find class annotated with @JavaConfig");
