@@ -10,14 +10,16 @@ public class Main {
 
 
         Map<Class<?>, Class<?>> map = Map.of(
-                Speaker.class, ConsoleSpeaker.class
+                Speaker.class, ConsoleSpeaker.class,
+                Cleaner.class, CleanerImpl.class
                 );
 
 
-        ObjectFactory.getInstance().setConfig(new JavaConfig(map,"my_spring") {
-        });
+        JavaConfig config = new JavaConfig(map, "my_spring");
+        ApplicationContext context = new ApplicationContext(config);
 
-        IRobot iRobot = ObjectFactory.getInstance().createObject(IRobot.class);
+        IRobot iRobot = context.getBean(IRobot.class);
+
         iRobot.cleanRoom();
     }
 }
