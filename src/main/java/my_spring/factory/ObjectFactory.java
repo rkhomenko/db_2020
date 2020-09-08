@@ -2,12 +2,14 @@ package my_spring.factory;
 
 import lombok.Setter;
 import lombok.SneakyThrows;
+import my_spring.annotation.InjectByType;
 import my_spring.config.ConfigLoader;
 import my_spring.configurer.ObjectConfigurer;
 import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
 
 import javax.annotation.PostConstruct;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -19,17 +21,19 @@ import java.util.Set;
  * @author Evgeny Borisov
  */
 public class ObjectFactory {
-    private static ObjectFactory objectFactory = new ObjectFactory();
-
     @Setter
     private ConfigLoader configLoader;
 
     private List<ObjectConfigurer> objectConfigurers = new ArrayList<>();
 
-    private Reflections scanner = new Reflections("my_spring");
+    @Setter
+    private Reflections scanner;
 
     @SneakyThrows
-    private ObjectFactory() {
+    public ObjectFactory(ConfigLoader configLoader) {
+        setConfigLoader(configLoader);
+        setScanner(configLoader.getScanner());
+
         Set<Class<? extends ObjectConfigurer>> classes = scanner.getSubTypesOf(ObjectConfigurer.class);
         for (Class<? extends ObjectConfigurer> aClass : classes) {
             if (!Modifier.isAbstract(aClass.getModifiers())) {
@@ -38,17 +42,26 @@ public class ObjectFactory {
         }
     }
 
-    public static ObjectFactory getInstance() {
-        return objectFactory;
-    }
-
     @SneakyThrows
     public <T> T createObject(Class<T> type) {
         Class<? extends T> implClass = resolveImpl(type);
         T t = create(implClass);
+        injectByType(t);
         configure(t);
         invokeInitMethod(implClass, t);
         return t;
+    }
+
+    @SneakyThrows
+    private <T> void injectByType(T t) {
+        Field[] fields = t.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            if (field.isAnnotationPresent(InjectByType.class)) {
+                Object value = createObject(field.getType());
+                field.setAccessible(true);
+                field.set(t,value);
+            }
+        }
     }
 
 
@@ -57,7 +70,6 @@ public class ObjectFactory {
         for (Method method : methods) {
             if (method.isAnnotationPresent(PostConstruct.class)) {
                 method.invoke(t);
-
             }
         }
     }

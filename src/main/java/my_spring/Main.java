@@ -9,8 +9,8 @@ import my_spring.context.MyApplicationContext;
  */
 public class Main {
     public static void main(String[] args) {
-        ApplicationContext applicationContext = new MyApplicationContext();
-        applicationContext.setConfigLoader(new JavaConfigLoader("my_spring"));
+        ApplicationContext applicationContext = new MyApplicationContext(
+                new JavaConfigLoader("my_spring"));
 
         IRobot robot = applicationContext.getBean(IRobot.class);
         robot.cleanRoom();

@@ -8,9 +8,10 @@ import java.util.Map;
 
 public class JavaConfigLoader implements ConfigLoader {
     private final Map<Class<?>, Class<?>> interfaceClassMap = new HashMap<>();
+    private final Reflections scanner;
 
     public JavaConfigLoader(String packageName) {
-        Reflections scanner = new Reflections(packageName);
+        scanner = new Reflections(packageName);
         var classSet = scanner.getTypesAnnotatedWith(JavaConfig.class);
         if (classSet.size() == 0) {
             throw new ConfigLoaderException("Cannot find class annotated with @JavaConfig");
@@ -36,5 +37,10 @@ public class JavaConfigLoader implements ConfigLoader {
     @Override
     public <T> Class<? extends T> getImpl(Class<T> clazz) {
         return (Class<? extends T>) interfaceClassMap.get(clazz);
+    }
+
+    @Override
+    public Reflections getScanner() {
+        return scanner;
     }
 }

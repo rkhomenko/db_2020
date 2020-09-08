@@ -8,13 +8,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MyApplicationContext implements ApplicationContext {
-    private static ObjectFactory objectFactory = ObjectFactory.getInstance();
-
+    private ObjectFactory objectFactory;
     private Map<Class<?>, Object> singletoneCache = new HashMap<>();
 
-    @Override
-    public void setConfigLoader(ConfigLoader configLoader) {
-        objectFactory.setConfigLoader(configLoader);
+    public MyApplicationContext(ConfigLoader configLoader) {
+        objectFactory = new ObjectFactory(configLoader);
     }
 
     @Override
