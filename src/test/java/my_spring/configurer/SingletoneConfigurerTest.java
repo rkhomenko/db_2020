@@ -22,6 +22,10 @@ public class SingletoneConfigurerTest {
         assertNotNull(speaker1);
         assertNotNull(speaker2);
         assertSame(speaker1, speaker2);
+
+        MyApplicationContext myApplicationContext = (MyApplicationContext)applicationContext;
+        Integer counter = myApplicationContext.getTestCounterMap().get(ConsoleSpeaker.class);
+        assertEquals(counter.intValue(), 1);
     }
 
     @Test
@@ -34,5 +38,9 @@ public class SingletoneConfigurerTest {
         assertNotNull(cleaner1);
         assertNotNull(cleaner2);
         assertNotSame(cleaner1, cleaner2);
+
+        MyApplicationContext myApplicationContext = (MyApplicationContext)applicationContext;
+        Integer counter = myApplicationContext.getTestCounterMap().get(CleanerImpl.class);
+        assertEquals(counter.intValue(), 2);
     }
 }
