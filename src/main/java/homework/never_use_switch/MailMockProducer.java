@@ -4,15 +4,26 @@ import com.github.javafaker.Faker;
 import heroes.RandomUtil;
 import lombok.SneakyThrows;
 import org.fluttercode.datafactory.impl.DataFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Evgeny Borisov
  */
+
+@Service
 public class MailMockProducer {
 
-    private MailDistributor mailDistributor = new MailDistributor();
-    private Faker faker = new Faker();
-    private DataFactory dataFactory = new DataFactory();
+    @Autowired
+    private MailDistributor mailDistributor;
+
+    @Autowired
+    private Faker faker;
+
+    @Autowired
+    private DataFactory dataFactory;
 
 
     @SneakyThrows
@@ -33,7 +44,10 @@ public class MailMockProducer {
     }
 
     public static void main(String[] args) {
-        new MailMockProducer().sendMailsForever();
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+        MailMockProducer mailMockProducer = applicationContext.getBean(MailMockProducer.class);
+        mailMockProducer.sendMailsForever();
     }
 }
 
