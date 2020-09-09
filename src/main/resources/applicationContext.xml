@@ -8,6 +8,7 @@
 
 
     <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
+    <bean class="real_spring.quoters.InjectRandomIntBeanPostProcessor" />
 
 
     <bean id="anotherQuote" class="java.lang.String">
