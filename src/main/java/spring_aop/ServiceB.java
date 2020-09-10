@@ -7,6 +7,6 @@ public class ServiceB implements DaoService {
     @Override
     public <T> void save(T obj) {
         System.out.println("Save obj to db");
-        throw new RuntimeException("Fail");
+        throw new DatabaseRuntimeException("Fail");
     }
 }

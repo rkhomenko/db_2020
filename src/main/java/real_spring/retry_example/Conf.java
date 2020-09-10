@@ -3,6 +3,7 @@ package real_spring.retry_example;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.retry.annotation.EnableRetry;
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.retry.annotation.EnableRetry;
 @Configuration
 @ComponentScan
 @EnableRetry
+@EnableAspectJAutoProxy
 public class Conf {
 
     public static void main(String[] args) {
