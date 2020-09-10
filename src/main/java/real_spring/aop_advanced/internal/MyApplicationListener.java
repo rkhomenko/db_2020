@@ -1,5 +1,7 @@
 package real_spring.aop_advanced.internal;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import org.springframework.aop.TargetClassAware;
 import org.springframework.context.ApplicationContext;
@@ -9,10 +11,24 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+
+@AllArgsConstructor
+@Getter
+class Pair<L, R> {
+    private final L left;
+    private final R right;
+}
 
 @Component
 public class MyApplicationListener {
+    private List<Pair<Object, List<Method>>> objectMethodList = new ArrayList<>();
+
     @EventListener
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         System.out.println("I'am started");
@@ -26,12 +42,14 @@ public class MyApplicationListener {
                 clazz = obj.getClass();
             }
 
-            runPostProxyConstructMethods(obj, clazz);
+            putPostProxyConstructMethods(obj, clazz);
         }
+
+        runMethodsInParallel();
     }
 
     @SneakyThrows
-    void runPostProxyConstructMethods(Object obj, Class<?> clazz) {
+    private void putPostProxyConstructMethods(Object obj, Class<?> clazz) {
         List<Method> methods = new ArrayList<>();
         for (Method method : clazz.getDeclaredMethods()) {
             if (method.isAnnotationPresent(PostProxyConstruct.class)) {
@@ -42,8 +60,22 @@ public class MyApplicationListener {
             }
         }
 
+        if (methods.size() != 0) {
+            objectMethodList.add(new Pair<>(obj, methods));
+        }
+    }
+
+    @SneakyThrows
+    private void runMethodsInParallel() {
+        objectMethodList.parallelStream().forEach(MyApplicationListener::runMethods);
+    }
+
+    @SneakyThrows
+    private static void runMethods(Pair<Object, List<Method>> pair) {
+        Object obj = pair.getLeft();
+        List<Method> methods = pair.getRight();
         for (Method method : methods) {
-            method.invoke(obj);
+            method.invoke(obj); 
         }
     }
 }
