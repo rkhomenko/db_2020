@@ -11,11 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 
 @AllArgsConstructor
@@ -75,7 +71,7 @@ public class MyApplicationListener {
         Object obj = pair.getLeft();
         List<Method> methods = pair.getRight();
         for (Method method : methods) {
-            method.invoke(obj); 
+            method.invoke(obj);
         }
     }
 }
