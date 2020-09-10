@@ -6,6 +6,7 @@ import real_spring.aop_advanced.services.DBRuntimeException;
 /**
  * @author Evgeny Borisov
  */
+
 @Repository
 public class DaoA {
     public void save() {
