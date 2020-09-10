@@ -2,8 +2,7 @@ package homework.database.service;
 
 import org.springframework.stereotype.Component;
 
-@Component
-@Derby
+@AutoDao(DaoType.Derby)
 public class DerbyDao implements Dao {
     @Override
     public void save() {

@@ -1,17 +1,14 @@
 package homework.database.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MyService {
-    @Autowired
-    @Derby
+    @AutoDao(DaoType.Derby)
     private Dao doWorkDao;
 
-    @Autowired
-    @Oracle
+    @AutoDao(DaoType.Oracle)
     private Dao doBackupDao;
 
     @Scheduled(fixedDelay = 1000)
